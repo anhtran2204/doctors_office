@@ -125,6 +125,7 @@ void *patient(void *arg)
     // sem_post(&nurseSem);
 
     /* doctor section */
+    sem_post(&doctorSem);
 
     /* patient leaving section */
     sem_wait(&exited);
@@ -171,6 +172,15 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
     sleep(TIMER);
+    pthread_t doctorThread;
+    if (rc = pthread_create(&doctorThread, NULL, doctor, (void *)1L))
+    {
+        printf("Error: pthread_create() failed\n");
+        exit(EXIT_FAILURE);
+    }
+    sleep(TIMER);
+
+
     // for (long i = 0; i < NUM_DOCTORS; i++)
     // {
     //     pthread_t doctorThread;
